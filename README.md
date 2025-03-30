@@ -21,5 +21,5 @@ python vector_add.py
 
 ### Check Nsight Compute
 ```
-ncu -set full vector_add.py
+ncu --set full python vector_add.py
 ```
