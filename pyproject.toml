@@ -1,0 +1,14 @@
+[project]
+name = "test"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "matplotlib>=3.10.1",
+    "pandas>=2.2.3",
+    "setuptools>=78.1.0",
+    "torch>=2.6.0",
+    "torchvision>=0.21.0",
+    "triton>=3.2.0",
+]
