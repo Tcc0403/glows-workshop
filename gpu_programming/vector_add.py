@@ -1,4 +1,6 @@
 """
+Modified from Triton Tutorials 01: https://triton-lang.org/main/getting-started/tutorials/01-vector-add.html#sphx-glr-getting-started-tutorials-01-vector-add-py
+
 Vector Addition
 ===============
 
@@ -14,12 +16,10 @@ In doing so, you will learn about:
 
 """
 
-# %%
-# Compute Kernel
-# --------------
+
+import os
 
 import torch
-
 import triton
 import triton.language as tl
 
@@ -54,10 +54,6 @@ def add_kernel(x_ptr,  # *Pointer* to first input vector.
     tl.store(output_ptr + offsets, output, mask=mask)
 
 
-# %%
-# Let's also declare a helper function to (1) allocate the `z` tensor
-# and (2) enqueue the above kernel with appropriate grid/block sizes:
-
 
 def add(x: torch.Tensor, y: torch.Tensor):
     # We need to preallocate the output.
@@ -78,9 +74,6 @@ def add(x: torch.Tensor, y: torch.Tensor):
     return output
 
 
-# %%
-# We can now use the above function to compute the element-wise sum of two `torch.tensor` objects and test its correctness:
-
 torch.manual_seed(0)
 size = 98432
 x = torch.rand(size, device=DEVICE)
@@ -92,16 +85,6 @@ print(output_triton)
 print(f'The maximum difference between torch and triton is '
       f'{torch.max(torch.abs(output_torch - output_triton))}')
 
-# %%
-# Seems like we're good to go!
-
-# %%
-# Benchmark
-# ---------
-#
-# We can now benchmark our custom op on vectors of increasing sizes to get a sense of how it does relative to PyTorch.
-# To make things easier, Triton has a set of built-in utilities that allow us to concisely plot the performance of our custom ops.
-# for different problem sizes.
 
 
 @triton.testing.perf_report(
@@ -129,7 +112,4 @@ def benchmark(size, provider):
     return gbps(ms), gbps(max_ms), gbps(min_ms)
 
 
-# %%
-# We can now run the decorated function above. Pass `print_data=True` to see the performance number, `show_plots=True` to plot them, and/or
-# `save_path='/path/to/results/' to save them to disk along with raw CSV data:
-benchmark.run(print_data=True, show_plots=True, save_path="./benchmark")
+benchmark.run(print_data=True, show_plots=True, save_path=os.path.abspath(os.path.join(os.path.dirname(__file__), "../benchmark")))
