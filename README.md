@@ -14,12 +14,4 @@ source .venv/bin/activate
 ```
 uv pip install -e .
 ```
-### Run example
-```
-python vector_add.py
-```
 
-### Check Nsight Compute
-```
-ncu --set full python vector_add.py
-```
