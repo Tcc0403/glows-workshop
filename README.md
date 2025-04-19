@@ -12,6 +12,7 @@ source .venv/bin/activate
 ```
 ### Install dependencies
 ```
-uv pip install -e .
+uv lock
+uv sync
 ```
 
